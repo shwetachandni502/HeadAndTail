@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import './App.css';
 import { Form } from 'react-bootstrap';
 
-function HeadAndTail() {
+const HeadAndTail = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const [result, setResult] = useState({}); //HINT: {0: {rowString: 'THT', lastEnteredChar: 'T'}, 1: ...}
     
@@ -58,12 +58,14 @@ function HeadAndTail() {
 
   return (
     <div className="App">
-     <p>Some Paragraph</p>
+      <div className="Head">
+        <div className='Form'>
       <Form.Select onChange={(e) => setSelectedValue(e.target.value)}>
         <option value ="">select</option>
         <option value="h">Head</option>
         <option value="t">Tail</option>
       </Form.Select>
+      </div>
       <br/>
      <h1 onClick={handleChange}> Submit</h1>
      <div>
@@ -74,6 +76,7 @@ function HeadAndTail() {
            </div>
          )
        })}
+     </div>
      </div>
     </div>
   );
