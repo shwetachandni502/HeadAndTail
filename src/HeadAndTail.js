@@ -4,10 +4,17 @@ import './App.css';
 import { Form } from 'react-bootstrap';
 
 const HeadAndTail = () => {
+    const [error, setError] = useState(null)
     const [selectedValue, setSelectedValue] = useState('');
     const [result, setResult] = useState({}); //HINT: {0: {rowString: 'THT', lastEnteredChar: 'T'}, 1: ...}
     
     const handleChange = () => {
+      if(!!!selectedValue) {
+        setError('Please select value from dropdown')
+      }
+      else{
+        setError(null)
+      }
         let resultToSet = {};
         let numberOfIterations = Object.keys(result).length !== 0 ? Object.keys(result).length - 1 : 1;
 
@@ -18,10 +25,12 @@ const HeadAndTail = () => {
               break;
             }
         }
+        setSelectedValue('')
         setResult(resultToSet);
+        
     }
 
-    function getRowIndex({rowIndex, result}) {
+    const getRowIndex = ({rowIndex, result}) => {
       let nextRowIndex = null;
       
       //HINT: shouldBreakLoop -> true when (1. rowString.lastEnteredChar != selectedValueInDropdown, 2. if result == {} means rows.length == 0)
@@ -42,7 +51,7 @@ const HeadAndTail = () => {
         return {nextRowIndex, shouldBreakLoop};
     }
     
-    function appendCharToRow({rowToChangeIndex, result, selectedValue}) {
+    const appendCharToRow = ({rowToChangeIndex, result, selectedValue}) => {
         //HINT: this is the result object that is going to be after we append the char.
         let nextResult = {...result};
 
@@ -60,13 +69,14 @@ const HeadAndTail = () => {
     <div className="App">
       <div className="Head">
         <div className='Form'>
-      <Form.Select onChange={(e) => setSelectedValue(e.target.value)}>
+      <Form.Select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}>
         <option value ="">select</option>
         <option value="h">Head</option>
         <option value="t">Tail</option>
       </Form.Select>
       </div>
       <br/>
+     {!!error ? <p class="error">{error}</p>: ''} 
      <h1 onClick={handleChange}> Submit</h1>
      <div>
       {Object.values(result).map((row, index) => {
